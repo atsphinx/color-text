@@ -26,7 +26,7 @@ dependencies = [
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
-doc = []
+docs = []
 test = [
   "BeautifulSoup4",
   "pytest ==7.*",
@@ -34,6 +34,7 @@ test = [
 
 [project.urls]
 Home = "https://github.com/atsphinx/color-text"
+Document = "https://atsphinx.github.io/color-text"
 
 [tool.flit.module]
 name = "atsphinx.color_text"

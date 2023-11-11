@@ -10,6 +10,7 @@ release = version
 # -- General configuration
 extensions = [
     "atsphinx.color_text",
+    "sphinx.ext.githubpages",
     "sphinx.ext.todo",
 ]
 templates_path = ["_templates"]
