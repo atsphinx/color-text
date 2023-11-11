@@ -9,10 +9,15 @@ release = version
 
 # -- General configuration
 extensions = [
+    "atsphinx.color_text",
     "sphinx.ext.todo",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+rst_prolog = """
+.. |THIS| replace:: ``atsphinx-color-text``
+"""
 
 # -- Options for HTML output
 html_theme = "alabaster"
