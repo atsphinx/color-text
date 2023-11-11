@@ -8,7 +8,7 @@ from docutils.writers import Writer
 from sphinx.application import Sphinx
 from sphinx.config import Config
 
-__version__ = "0.0.0"
+__version__ = "0.1.0"
 
 COLORS = {
     "black": "#000000",
