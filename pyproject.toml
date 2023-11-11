@@ -28,6 +28,7 @@ dynamic = ["version", "description"]
 [project.optional-dependencies]
 doc = []
 test = [
+  "BeautifulSoup4",
   "pytest ==7.*",
 ]
 
