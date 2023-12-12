@@ -1,12 +1,9 @@
 """Text color changer for Sphinx."""
-from typing import List, Optional
-
 from docutils import nodes
-from docutils.parsers.rst import roles
-from docutils.parsers.rst.states import Inliner
 from docutils.writers import Writer
 from sphinx.application import Sphinx
-from sphinx.config import Config
+from sphinx.domains import Domain
+from sphinx.util.docutils import SphinxRole
 
 __version__ = "0.1.0"
 
@@ -35,6 +32,23 @@ Use "Standard colors" from
 """
 
 
+class ColorRole(SphinxRole):  # noqa: D101
+    def __init__(self, color_code: str):  # noqa: D107
+        self._color_code = color_code
+
+    def run(self):  # noqa: D102
+        messages = []
+        node = ColorText(self.rawtext, self.text)
+        node["style"] = f"color: {self._color_code}"
+        return [node], messages
+
+
+class ColorDomain(Domain):  # noqa: D101
+    name = "color"
+    label = "Color text"
+    roles = {k: ColorRole(v) for k, v in COLORS.items()}
+
+
 class ColorText(nodes.Inline, nodes.TextElement):  # noqa: D101
     pass
 
@@ -47,38 +61,8 @@ def depart_color_text(self: Writer, node: ColorText):  # noqa: D103
     self.body.append("</span>")
 
 
-def create_color_role(code):
-    """Generate role function from color-code(RGB)."""
-
-    def _color_role(
-        role: str,
-        rawtext: str,
-        text: str,
-        lineno: int,
-        inliner: Inliner,
-        options: Optional[dict] = None,
-        content: Optional[List[str]] = None,
-    ):  # noqa: D103
-        options = roles.normalized_role_options(options)
-        messages = []
-        node = ColorText(rawtext, text)
-        node["style"] = f"color: {code}"
-        return [node], messages
-
-    return _color_role
-
-
-def register_colors(app: Sphinx, config: Config):
-    """Grenerate and register role for color-text.
-
-    This func refs ``COLORS`` and conf.py to generate.
-    """
-    for name, code in COLORS.items():
-        roles.register_canonical_role(f"color:{name}", create_color_role(code))
-
-
 def setup(app: Sphinx):  # noqa: D103
-    app.connect("config-inited", register_colors)
+    app.add_domain(ColorDomain)
     app.add_node(ColorText, html=(visit_color_text, depart_color_text))
     return {
         "version": __version__,
