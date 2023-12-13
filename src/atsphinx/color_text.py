@@ -5,7 +5,7 @@ from sphinx.application import Sphinx
 from sphinx.domains import Domain
 from sphinx.util.docutils import SphinxRole
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 COLORS = {
     "black": "#000000",
